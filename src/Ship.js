@@ -1,8 +1,8 @@
 class Ship {
-	constructor(startPort) {
-		this.startingPoint = startPort;
-		this.currentPort = this.startingPoint;
-		this.previousPort = "";
+	constructor(itinerary) {
+		this.itinerary = itinerary;
+		this.currentPort = itinerary.ports[0];
+		this.previousPort = null;
 	}
 	setSail() {
 		if (this.currentPort === null) {
@@ -13,13 +13,10 @@ class Ship {
 			return "Thems seas be choppy sailor! Bon Voyage!"
 		}
 	}
-	dock(port) {
-		if (this.currentPort != null) {
-			return "Confucious say 'one cannot dock whilst one is docked'";
-		} else {
-			this.currentPort = port;
-			return `Welcome to ${port}, the weather is overcast`
-		}
+	dock() {
+		const itinerary = this.itinerary;
+		const prevPortIndex = itinerary.ports.indexOf(this.previousPort);
+		this.currentPort = itinerary.ports[prevPortIndex + 1];
 
 	}
 }
