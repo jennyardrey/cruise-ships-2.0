@@ -5,8 +5,13 @@ class Ship {
 		this.previousPort = null;
 	}
 	setSail() {
+		const itinerary = this.itinerary;
+		const itinEnd = itinerary.ports.length - 1;
+		const currentPortIndex = itinerary.ports.indexOf(this.currentPort);
 		if (this.currentPort === null) {
 			return "You are already at sea, fool!"
+		} if (currentPortIndex === itinEnd) {
+			throw new Error('YOUR HOLIDAY IS OVER GO HOME');
 		} else {
 			this.previousPort = this.currentPort;
 			this.currentPort = null;
@@ -16,6 +21,7 @@ class Ship {
 	dock() {
 		const itinerary = this.itinerary;
 		const prevPortIndex = itinerary.ports.indexOf(this.previousPort);
+
 		this.currentPort = itinerary.ports[prevPortIndex + 1];
 
 	}

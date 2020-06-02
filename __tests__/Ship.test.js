@@ -20,10 +20,10 @@ describe('Ship', () => {
 	it('can set sail', () => {
 		const dover = new Port('Dover');
 		const liverpool = new Port('Liverpool')
-		const itinerary = new Itinerary(dover, liverpool);
+		const itinerary = new Itinerary([dover, liverpool]);
 		const ship = new Ship(itinerary);
 		ship.setSail();
-		expect(ship.previousPort).toBe(itinerary[0]);
+		expect(ship.previousPort).toBe(itinerary.ports[0]);
 		expect(ship.currentPort).toBeNull;
 	})
 	it('can dock at a port', () => {
@@ -35,5 +35,14 @@ describe('Ship', () => {
 		ship.dock();
 		expect(ship.previousPort).toBe(dover);
 		expect(ship.currentPort).toBe(liverpool)
+	})
+	it('it cannot sail further than itinerary', () => {
+		const dover = new Port('Dover');
+		const liverpool = new Port('Liverpool')
+		const itinerary = new Itinerary([dover, liverpool]);
+		const ship = new Ship(itinerary);
+		ship.setSail();
+		ship.dock();
+		expect(() => ship.setSail()).toThrowError('YOUR HOLIDAY IS OVER GO HOME')
 	})
 });
