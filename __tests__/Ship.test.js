@@ -9,17 +9,14 @@ describe('Ship', () => {
 	let itinerary;
 	let ship;
 	beforeEach(() => {
-		dover = new Port('Dover');
-		liverpool = new Port('Liverpool')
-		itinerary = new Itinerary([dover, liverpool]);
+		dover = { name: 'Dover', ships: [], addShip: jest.fn(), removeShip: jest.fn() };
+		liverpool = { name: 'Liverpool', ships: [], addShip: jest.fn(), removeShip: jest.fn() }
+		itinerary = { ports: [dover, liverpool] };
 		ship = new Ship(itinerary);
 	})
 	it('can be instantiated', () => {
 		expect(new Ship(itinerary)).toBeInstanceOf(Object);
 	});
-	it('has a starting point', () => {
-		expect(ship.startingPoint).toBe(itinerary[0]);
-	})
 	it('can set sail', () => {
 		ship.setSail();
 		expect(ship.previousPort).toBe(itinerary.ports[0]);
@@ -30,7 +27,7 @@ describe('Ship', () => {
 		ship.dock();
 		expect(ship.previousPort).toBe(dover);
 		expect(ship.currentPort).toBe(liverpool)
-		expect(liverpool.ships).toContain(ship);
+		expect(liverpool.addShip).toHaveBeenCalledWith(ship);
 	})
 	it('it cannot sail further than itinerary', () => {
 		ship.setSail();
@@ -38,10 +35,10 @@ describe('Ship', () => {
 		expect(() => ship.setSail()).toThrowError('YOUR HOLIDAY IS OVER GO HOME')
 	})
 	it('gets added to a port on instantiation', () => {
-		expect(dover.ships).toContain(ship);
+		expect(dover.addShip).toHaveBeenCalledWith(ship);
 	})
 	it('it gets removed from a port when it sets sail', () => {
 		ship.setSail();
-		expect(dover.ships).not.toContain(ship);
+		expect(dover.removeShip).toHaveBeenCalledWith(ship);
 	})
 });
