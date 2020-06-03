@@ -3,7 +3,9 @@ class Ship {
 		this.itinerary = itinerary;
 		this.currentPort = itinerary.ports[0];
 		this.previousPort = null;
+		this.currentPort.addShip(this);
 	}
+
 	setSail() {
 		const itinerary = this.itinerary;
 		const itinEnd = itinerary.ports.length - 1;
@@ -15,6 +17,7 @@ class Ship {
 		} else {
 			this.previousPort = this.currentPort;
 			this.currentPort = null;
+			this.previousPort.removeShip(this);
 			return "Thems seas be choppy sailor! Bon Voyage!"
 		}
 	}
@@ -23,7 +26,7 @@ class Ship {
 		const prevPortIndex = itinerary.ports.indexOf(this.previousPort);
 
 		this.currentPort = itinerary.ports[prevPortIndex + 1];
-
+		this.currentPort.addShip(this);
 	}
 }
 
