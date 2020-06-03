@@ -2,22 +2,23 @@
 const Port = require("../src/Port.js");
 
 describe('Port', () => {
+	let port;
+	let ship;
+	beforeEach(() => {
+		port = new Port('Liverpool');
+		ship = {};
+	})
 	it('can be instantiated', () => {
 		expect(new Port()).toBeInstanceOf(Object);
 	})
 	it('has a name', () => {
-		const port = new Port('Liverpool');
 		expect(port.name).toBe('Liverpool');
 	})
 	it('adds a ship', () => {
-		const port = new Port('Liverpool');
-		const ship = {};
 		port.addShip(ship);
 		expect(port.ships).toContain(ship);
 	})
 	it('removes a ship', () => {
-		const port = new Port('Liverpool');
-		const ship = {};
 		port.removeShip(ship);
 		expect(port.ships).not.toContain(ship);
 
